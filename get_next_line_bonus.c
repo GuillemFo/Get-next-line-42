@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gforns-s <gforns-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:50:07 by gforns-s          #+#    #+#             */
-/*   Updated: 2023/07/05 15:36:17 by gforns-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:30:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,14 @@ static char	*ft_readline(char *tmp, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*tmp[4096];
+	static char	*tmp[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= OPEN_MAX)	//filter max open fd
+		return (NULL);
 	tmp[fd] = ft_readline(tmp[fd], fd);
 	if (!tmp[fd])
-		return (0);
+		return (NULL);
 	line = ft_create_line(tmp[fd]);
 	if (!line)
 	{
@@ -129,11 +129,9 @@ char	*get_next_line(int fd)
 /*
 int	main(void)
 {
-	int		m;
 	int		fd;
 	char	*path;
 
-	m = 0;
 	path = "test.txt";
 	fd = open(path, O_RDONLY);
 	char *linea = get_next_line(fd);
@@ -143,4 +141,5 @@ int	main(void)
 		free(linea);
 		linea = get_next_line(fd);
 	}
-}*/
+}
+*/
